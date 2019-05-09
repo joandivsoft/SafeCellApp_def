@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         final EditText eName=findViewById(R.id.fieldName);
         final EditText ePassword=findViewById(R.id.fieldPassword);
-        FloatingActionButton fab = findViewById(R.id.fab);
+        Button fab = findViewById(R.id.fab);
         Intent intent;
 
         final SharedPreferences pref;
