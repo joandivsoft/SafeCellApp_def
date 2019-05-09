@@ -1,0 +1,22 @@
+<resources>
+    <!--<string name="action_settings">Settings</string>-->
+    <!--android:title="@string/action_settings"-->
+    <string name="action_settings">Settings</string>
+    <string name="warn_EN">Warning</string>
+    <string name="warn_ES">Advertencia</string>
+    <string name="warn_CA">Compte</string>
+    <string name="title_activity_2">Activity2</string>
+    <string name="title_activity_xx">xx</string>
+    <string name="app_name">SafeCellApp</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_4">Activity4</string>
+    <string name="title_activity_xxxx">xxxx</string>
+</resources>
+
+
+
+
+
+
+
+

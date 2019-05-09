@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="50dp"
+    android:paddingLeft="50dp"
+    android:paddingRight="50dp"
+    android:paddingTop="50dp"
+    android:background="#ccccff"
+    tools:context=".Activity3">
+
+    <TextView
+        android:id="@+id/tv3a"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:gravity="center_horizontal"
+        android:background="#ccccff"
+        android:text="APP"/>
+
+
+    <Button
+        android:id="@+id/getLocationBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Init params"
+        android:layout_below="@id/tv3a"/>
+
+    <TextView
+        android:id="@+id/locationText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorCyan"
+        android:text="PEND"
+        android:layout_below="@id/getLocationBtn"/>
+
+    <TextView
+        android:id="@+id/locationText2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorCyan"
+        android:text="PEND"
+        android:layout_below="@id/locationText"/>
+
+    <TextView
+        android:id="@+id/locationText3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorCyan"
+        android:text="PEND"
+        android:layout_below="@id/locationText2"/>
+
+    <TextView
+        android:id="@+id/locationText4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorCyan"
+        android:text="PEND"
+        android:layout_below="@id/locationText3"/>
+
+    <TextView
+        android:id="@+id/tv3b"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/colorYellow"
+        android:text="Geolocalization latitude"
+        android:layout_below="@id/locationText4"/>
+
+    <TextView
+        android:id="@+id/tv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/colorYellow"
+        android:text="INTERNET"
+        android:layout_below="@id/tv3b"/>
+
+    <TextView
+        android:id="@+id/tv5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/colorYellow"
+        android:text="Sesion OK"
+        android:layout_below="@id/tv2"/>
+
+    <TextView
+        android:id="@+id/tv6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/colorYellow"
+        android:text="Sesion OK"
+        android:layout_below="@id/tv5"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Block Internet"
+        android:id="@+id/blockInternet"
+        android:layout_below="@id/tv6"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Block WIFI"
+        android:id="@+id/blockWifi"
+        android:layout_below="@id/blockInternet"/>
+
+    <TextView
+        android:id="@+id/titulo_imei"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="Código IMEI:"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:layout_below="@id/blockWifi"/>
+
+    <TextView
+        android:id="@+id/mostrar_imei"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="20sp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:layout_below="@id/titulo_imei"/>
+
+    <TextView
+        android:id="@+id/tv7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/colorYellow"
+        android:text="Sesion OK"
+        android:layout_below="@id/mostrar_imei"/>
+
+    <TextView
+        android:id="@+id/tv8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/colorYellow"
+        android:text="Sesion OK"
+        android:layout_below="@id/blockWifi"/>
+
+    <TextView
+        android:id="@+id/tv9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/colorYellow"
+        android:text="Sesion OK"
+        android:layout_below="@id/tv8"/>
+
+    <TextView
+        android:id="@+id/tv10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/colorYellow"
+        android:text="Sesion OK"
+        android:layout_below="@id/tv9"/>
+
+
+</RelativeLayout>
