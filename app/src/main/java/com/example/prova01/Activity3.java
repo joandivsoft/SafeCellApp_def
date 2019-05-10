@@ -87,8 +87,6 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_3);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         //Imei ================================
         mostrar_imei = (TextView) findViewById(R.id.mostrar_imei);
