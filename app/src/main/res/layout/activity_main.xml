@@ -27,7 +27,7 @@
         android:layout_marginTop="52dp"
         android:layout_marginEnd="80dp"
         android:layout_marginRight="80dp"
-        android:background="#c60b4a"
+        android:background="#65327b"
         android:text="Iniciar sesión"
         android:textColor="#ffffff"
         app:layout_constraintEnd_toEndOf="parent"
