@@ -1,177 +1,344 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="50dp"
-    android:paddingLeft="50dp"
-    android:paddingRight="50dp"
-    android:paddingTop="50dp"
-    android:background="#ccccff"
-    tools:context=".Activity3">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/colorBG"
+    android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/tv3a"
+        android:id="@+id/app_wellcome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18dp"
         android:gravity="center_horizontal"
-        android:background="#ccccff"
+        android:background="@color/colorEtiq"
+        android:layout_weight="1"
         android:text="APP"/>
 
-
-    <Button
-        android:id="@+id/getLocationBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Init params"
-        android:layout_below="@id/tv3a"/>
-
     <TextView
-        android:id="@+id/locationText"
+        android:id="@+id/session_initied"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/colorCyan"
-        android:text="PEND"
-        android:layout_below="@id/getLocationBtn"/>
-
-    <TextView
-        android:id="@+id/locationText2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/colorCyan"
-        android:text="PEND"
-        android:layout_below="@id/locationText"/>
-
-    <TextView
-        android:id="@+id/locationText3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/colorCyan"
-        android:text="PEND"
-        android:layout_below="@id/locationText2"/>
-
-    <TextView
-        android:id="@+id/locationText4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/colorCyan"
-        android:text="PEND"
-        android:layout_below="@id/locationText3"/>
-
-    <TextView
-        android:id="@+id/tv3b"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal"
-        android:background="@color/colorYellow"
-        android:text="Geolocalization latitude"
-        android:layout_below="@id/locationText4"/>
+        android:textSize="18dp"
+        android:background="@color/colorEtiq"
+        android:layout_weight="1"
+        android:text="Geolocalization latitude"/>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/getLocationBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Init params"
+            android:layout_weight="1"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Block Internet"
+            android:layout_weight="1"
+            android:id="@+id/blockInternet"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Block WIFI"
+            android:layout_weight="1"
+            android:id="@+id/blockWifi"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Readings"
+            android:layout_weight="1"
+            android:id="@+id/readings"/>
+
+    </LinearLayout>
 
     <TextView
-        android:id="@+id/tv2"
+        android:id="@+id/et_geoloc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:background="@color/colorTitle"
         android:layout_gravity="center_horizontal"
-        android:background="@color/colorYellow"
-        android:text="INTERNET"
-        android:layout_below="@id/tv3b"/>
+        android:textSize="14dp"
+        android:layout_weight="1"
+        android:text="Geolocalitzacio:"/>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/et_lat"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="@color/colorEtiq"
+            android:layout_weight="1"
+            android:text="Latitud:"/>
+
+        <TextView
+            android:id="@+id/loc_lat"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="@color/colorField"
+            android:layout_weight="1"
+            android:text="PEND"/>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/et_lon"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="@color/colorEtiq"
+            android:layout_weight="1"
+            android:text="Longitud:"/>
+
+        <TextView
+            android:id="@+id/loc_lon"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="@color/colorField"
+            android:layout_weight="1"
+            android:text="PEND"/>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/et_alt"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="@color/colorEtiq"
+            android:layout_weight="1"
+            android:text="Altitud:"/>
+
+        <TextView
+            android:id="@+id/loc_alt"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="@color/colorField"
+            android:layout_weight="1"
+            android:text="PEND"/>
+
+    </LinearLayout>
 
     <TextView
-        android:id="@+id/tv5"
+        android:id="@+id/et_connect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:background="@color/colorTitle"
+        android:textSize="14dp"
         android:layout_gravity="center_horizontal"
-        android:background="@color/colorYellow"
-        android:text="Sesion OK"
-        android:layout_below="@id/tv2"/>
+        android:layout_weight="1"
+        android:text="Connexions:"/>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/et_connect_net"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="@color/colorEtiq"
+            android:layout_weight="1"
+            android:text="Connexió xarxa:"/>
+
+        <TextView
+            android:id="@+id/connect_net"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="@color/colorField"
+            android:layout_weight="1"
+            android:text="PEND"/>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/et_connect_internet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorEtiq"
+            android:layout_weight="1"
+            android:text="Internet:"/>
+
+        <TextView
+            android:id="@+id/connect_internet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorField"
+            android:layout_weight="1"
+            android:text="PEND"/>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/et_connect_wifi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorEtiq"
+            android:layout_weight="1"
+            android:text="WIFI:"/>
+
+        <TextView
+            android:id="@+id/connect_wifi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorField"
+            android:layout_weight="1"
+            android:text="PEND" />
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/et_connect_mobile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorEtiq"
+            android:layout_weight="1"
+            android:text="Mobile connection:"/>
+
+        <TextView
+            android:id="@+id/connect_mobile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorField"
+            android:layout_weight="1"
+            android:text="PEND"/>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/titulo_imei"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorEtiq"
+            android:textStyle="bold"
+            android:text="IMEI"/>
+
+        <TextView
+            android:id="@+id/mostrar_imei"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="20sp"
+            android:background="@color/colorField"
+            android:layout_weight="1"
+            android:gravity="center"/>
+
+    </LinearLayout>
 
     <TextView
-        android:id="@+id/tv6"
+        android:id="@+id/et_reads"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:background="@color/colorTitle"
+        android:textSize="14dp"
         android:layout_gravity="center_horizontal"
-        android:background="@color/colorYellow"
-        android:text="Sesion OK"
-        android:layout_below="@id/tv5"/>
+        android:layout_weight="1"
+        android:text="Reads:"/>
 
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Block Internet"
-        android:id="@+id/blockInternet"
-        android:layout_below="@id/tv6"/>
-    <Button
-        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/et_read_wifi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorEtiq"
+            android:textStyle="bold"
+            android:text="READ WIFI"/>
+
+        <TextView
+            android:id="@+id/read_wifi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:background="@color/colorField"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="PEND"/>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Block WIFI"
-        android:id="@+id/blockWifi"
-        android:layout_below="@id/blockInternet"/>
+        android:layout_weight="1"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/titulo_imei"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="center"
-        android:text="Código IMEI:"
-        android:textAlignment="center"
-        android:textStyle="bold"
-        android:layout_below="@id/blockWifi"/>
+        <TextView
+            android:id="@+id/et_read_field2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorEtiq"
+            android:textStyle="bold"
+            android:text="READ FIELD2"/>
 
-    <TextView
-        android:id="@+id/mostrar_imei"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="20sp"
-        android:layout_marginTop="20dp"
-        android:gravity="center"
-        android:layout_below="@id/titulo_imei"/>
+        <TextView
+            android:id="@+id/read_field2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:background="@color/colorField"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="PEND"/>
 
-    <TextView
-        android:id="@+id/tv7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal"
-        android:background="@color/colorYellow"
-        android:text="Sesion OK"
-        android:layout_below="@id/mostrar_imei"/>
-
-    <TextView
-        android:id="@+id/tv8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal"
-        android:background="@color/colorYellow"
-        android:text="Sesion OK"
-        android:layout_below="@id/blockWifi"/>
-
-    <TextView
-        android:id="@+id/tv9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal"
-        android:background="@color/colorYellow"
-        android:text="Sesion OK"
-        android:layout_below="@id/tv8"/>
-
-    <TextView
-        android:id="@+id/tv10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal"
-        android:background="@color/colorYellow"
-        android:text="Sesion OK"
-        android:layout_below="@id/tv9"/>
+    </LinearLayout>
 
 
-</RelativeLayout>
+</LinearLayout>

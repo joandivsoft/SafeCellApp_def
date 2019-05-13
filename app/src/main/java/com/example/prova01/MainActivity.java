@@ -32,19 +32,28 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     String fcmToken="";
+    String name1;
+    String password1;
+    JSONObject jsonObject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
         final EditText eName=findViewById(R.id.fieldName);
         final EditText ePassword=findViewById(R.id.fieldPassword);
+      
         Button fab = findViewById(R.id.fab);
         Intent intent;
 
+        //Session========
         final SharedPreferences pref;
+        final SharedPreferences.Editor[] editor = new SharedPreferences.Editor[0];
         pref = getSharedPreferences("user_details",MODE_PRIVATE);
+        Intent intent;
+        //Session========
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,26 +65,21 @@ public class MainActivity extends AppCompatActivity {
                 //NOU
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
                 String url ="https://safe-cell.herokuapp.com/api/auth/login";
-                StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-                        new Response.Listener<String>()
-                        {
+                StringRequest postRequest = new StringRequest(Request.Method.POST, url,new Response.Listener<String>(){
+                    String hhh="";
                             @Override
                             public void onResponse(String response) {
                                 // response
                                 fcmToken=response;
                                 //access_token
 
-
                                 //==================
 
                                 try {
 
-                                    JSONObject jsonObject = new JSONObject(response);
+                                    jsonObject = new JSONObject(response);
                                     Utilities.getToken = jsonObject.getString("access_token");
-                                    SharedPreferences.Editor editor = pref.edit();
-                                    //editor.putString("username",ename);
-                                    //editor.putString("password",password);
-                                    editor.commit();
+
                                     //Toast.makeText(getApplicationContext(), "Get token: "+Utilities.getToken, Toast.LENGTH_LONG).show();
                                     //==============
 
@@ -107,10 +111,20 @@ public class MainActivity extends AppCompatActivity {
                     protected Map<String, String> getParams()
                     {
                         Map<String, String>  params = new HashMap<String, String>();
+                        name1=String.valueOf(eName.getText());
+                        password1=String.valueOf(ePassword.getText());
 
-                        params.put("email", String.valueOf(eName.getText()));  //ara per defecte: iris3@test.com...
-                        params.put("password", String.valueOf(ePassword.getText())); //ara per defecte: 123456
+                        //Toast.makeText(getApplicationContext(), "editor: ".concat(name1).concat("-").concat(password1), Toast.LENGTH_LONG).show();
+                        params.put("email", name1);  //ara per defecte: iris3@test.com...
+                        params.put("password", password1); //ara per defecte: 123456
                         params.put("remember_me", String.valueOf(true));
+
+                        //Session=============
+                        //editor[0] = pref.edit();
+                        //editor.putString("username", name1);
+                        //editor.putString("password",password1);
+                        //editor.commit();
+                        //Session=============
 
 
                         return params;

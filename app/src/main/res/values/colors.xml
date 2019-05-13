@@ -5,4 +5,9 @@
     <color name="colorAccent">#D81B60</color>
     <color name="colorYellow">#E8D909</color>
     <color name="colorCyan">#d4f7f6</color>
+    <color name="colorEtiq">#f09ff9</color>
+    <color name="colorField">#f0f7a3</color>
+    <color name="colorTitle">#eaceed</color>
+    <color name="colorBG">#eaceed</color>
+    <!--<color name="colorTitle">#eba80a</color>-->
 </resources>

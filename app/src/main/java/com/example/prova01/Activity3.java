@@ -13,6 +13,8 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -33,17 +35,43 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static com.example.prova01.Utilities.lang1;
 import static java.lang.String.valueOf;
 
 public class Activity3 extends AppCompatActivity implements LocationListener {
+
+    //api/service/getStatuses/{ID}
+    //api/device/getDeviceByImei/{IMEI}
+
+    //PEND
+    //1. Geoloc
+    //2. Readings
+    //3 execute methods on reading (WIFI)
+    //No tancar app
+    //BlockInternet - - Blocar pantalla - Filtre
+    //Bloc screen - https://stackoverflow.com/questions/14352648/how-to-lock-unlock-screen-programmatically
+    //REGEX    ^http(s)?://([\w-]+.)+[\w-]+(/[\w- ./?%&=])?$
+
+    //1. Lectura WIFI + position
+    //2. Block WIFI
+    //3. Filter web, Block screen, don't close
+
+    //FET
+    //Fields hidden
+    //Interval >> Block WIFI - onChangeLoc
+
 
     String fcmToken = "";
     static String numIMEI;
@@ -56,20 +84,30 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
     private final String TAG = Activity3.class.getSimpleName();
     //Imei ========================================
 
+    TextView text0_appWellcome;
+    TextView text0_sessionInitied;
+    TextView locationText1_lat;
+    TextView locationText2_lon;
+    TextView locationText3_alt;
+    TextView text4_net;
+    TextView text4_internet;
+    TextView text5_wfi;
+    TextView text6_mobile;
     Button getIMEI;
     Button getLocationBtn;
     Button blockWifi;
     Button blockInternet;
-    TextView locationText;
-    TextView locationText2;
-    TextView locationText3;
-    TextView locationText4;
-    TextView locationText5;
-    TextView locationText6;
-    TextView locationText7;
-    TextView locationText8;
-    TextView locationText9;
-    TextView locationText10;
+    Button readings;
+
+    TextView et_geoloc;
+    TextView et_connect;
+    TextView et_mobile;
+    TextView et_reads;
+    TextView et_read_wifi;
+    TextView et_read_field2;
+
+    public Handler handler;
+    public Runnable runnable;
 
     final int MY_PERMISSIONS_REQUEST_LOCATION = 900;
 
@@ -79,6 +117,7 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
     String lon2;
     String estat = "Estat 0";
     String estat2 = "Pendent...";
+    JSONObject jsonObject;
 
     static ConnectivityManager cm;
     static NetworkInfo activeNetwork;
@@ -90,6 +129,7 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
 
         //Imei ================================
         mostrar_imei = (TextView) findViewById(R.id.mostrar_imei);
+        //mostrar_imei.setVisibility(View.GONE); //Ocultar
         numIMEI_R = consultarPermiso(Manifest.permission.READ_PHONE_STATE, PHONESTATS);
         numIMEI = com.example.prova01.Utilities.numIMEI;
 
@@ -97,69 +137,99 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
         Integer a3_getParam1Int = Integer.parseInt(a3_getParam1);
 
         //Insert new params
+        text4_internet = findViewById(R.id.connect_internet);
+        text4_internet.setText(valueOf(isInternetConnection()));
 
-        TextView tv2b = findViewById(R.id.tv2);
-        tv2b.setText("With Internet Connection? " + valueOf(isInternetConnection()));
+        text0_appWellcome= findViewById(R.id.app_wellcome);
+        text0_appWellcome.setText(lang1[a3_getParam1Int][0]);
 
-        TextView tv3ab = findViewById(R.id.tv3a);
-        tv3ab.setText(lang1[a3_getParam1Int][0]);
+        text0_sessionInitied= findViewById(R.id.session_initied);
+        text0_sessionInitied.setText(lang1[a3_getParam1Int][2]);
 
-        TextView tv3bb = findViewById(R.id.tv3b);
-        tv3bb.setText(lang1[a3_getParam1Int][2]);
+        et_geoloc=(TextView) findViewById(R.id.et_geoloc);
+        et_geoloc.setText(lang1[a3_getParam1Int][4]);
+
+        et_connect=(TextView) findViewById(R.id.et_connect);
+        et_connect.setText(lang1[a3_getParam1Int][5]);
+
+        et_mobile=(TextView) findViewById(R.id.et_connect_mobile);
+        et_mobile.setText(lang1[a3_getParam1Int][6]);
+
+        et_reads=(TextView) findViewById(R.id.et_reads);
+        et_reads.setText(lang1[a3_getParam1Int][7]);
 
         getLocationBtn = (Button) findViewById(R.id.getLocationBtn);
         blockWifi = (Button) findViewById(R.id.blockWifi);
         blockInternet = (Button) findViewById(R.id.blockInternet);
-        locationText = (TextView) findViewById(R.id.locationText);
-        locationText2 = (TextView) findViewById(R.id.locationText2);
-        locationText3 = (TextView) findViewById(R.id.locationText3);
-        locationText4 = (TextView) findViewById(R.id.locationText4);
-        locationText5 = (TextView) findViewById(R.id.tv5);
-        locationText6 = (TextView) findViewById(R.id.tv6);
-        locationText7 = (TextView) findViewById(R.id.tv7);
-        locationText8 = (TextView) findViewById(R.id.tv8);
-        locationText9 = (TextView) findViewById(R.id.tv9);
-        locationText10 = (TextView) findViewById(R.id.tv10);
+        //blockInternet.setVisibility(View.GONE); //Ocultar
+        readings= (Button) findViewById(R.id.readings);
+
+
+        locationText1_lat = (TextView) findViewById(R.id.loc_lat);
+        locationText2_lon = (TextView) findViewById(R.id.loc_lon);
+        locationText3_alt = (TextView) findViewById(R.id.loc_alt);
+        text4_net = (TextView) findViewById(R.id.connect_net);
+        text5_wfi = (TextView) findViewById(R.id.connect_wifi);
+        //text5_wfi.setVisibility(View.GONE); //Ocultar
+        text6_mobile = (TextView) findViewById(R.id.connect_mobile);
+        et_read_wifi = (TextView) findViewById(R.id.read_wifi);
+        et_read_field2 = (TextView) findViewById(R.id.read_field2);
+
+        readings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                readWIFI();
+                readField2();
+                handler.removeCallbacks(runnable);
+            }
+        });
+
 
         getLocationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                //OK
+                refreshParams();
                 getLocation();
-                locationText4.setText("Is connected? " + String.valueOf(isConnected())); //Redundant
-                locationText5.setText("Is Wifi connected? " + String.valueOf(isWifi())); //OK
-                locationText6.setText("Is Mobile connected? " + String.valueOf(isMobileConnected())); //3G
-                locationText7.setText("PEND...");
-                locationText8.setText("PEND...");
-                locationText9.setText("PEND...");
-                locationText10.setText("PEND...");
-
-                putIMEI(numIMEI);
-                mostrar_imei.setText(numIMEI);
-
             }
         });
 
-        //OK
         blockWifi.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-
-                WifiManager wifi = (WifiManager) getApplicationContext().getSystemService(getApplicationContext().WIFI_SERVICE);
-                wifi.setWifiEnabled(false);
+                blockWifi();
             }
         });
 
         blockInternet.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-
+                blockData();
             }
-
         });
+
+        /*
+        new Timer().scheduleAtFixedRate(new TimerTask(){
+            @Override
+            public void run(){
+                Toast.makeText(getApplicationContext(), "INTERVAL....", Toast.LENGTH_SHORT).show();
+            }
+        },0,5000);
+        */
+
+        handler = new Handler(Looper.getMainLooper());
+
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                // Do the task...
+                //handler.postDelayed(this, 2000); // Repetition
+                Toast.makeText(getApplicationContext(), "INTERVAL....", Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        handler.postDelayed(runnable, 5000); //Once
 
     }
 
@@ -184,6 +254,13 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
         return isConnected;
     }
 
+    void readWIFI() {
+        et_read_wifi.setText("Prova WIFI");
+    }
+
+    void readField2() {
+        et_read_field2.setText("Prova Field2");
+    }
 
     void getLocation() {
 
@@ -234,7 +311,7 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
             // Permission has already been granted
         }
 
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 60000, 10, this); // ms, m
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 4000, 10, this); // ms, m  //60000, 10
 
         location1 = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
@@ -250,6 +327,15 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
 
     }
 
+    public void blockData() {
+        refreshParams();
+    }
+    public void blockWifi() {
+        WifiManager wifi = (WifiManager) getApplicationContext().getSystemService(getApplicationContext().WIFI_SERVICE);
+        wifi.setWifiEnabled(false);
+        refreshParams();
+
+    }
 
     public boolean isInternetConnection() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(getApplicationContext().CONNECTIVITY_SERVICE);
@@ -259,12 +345,27 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
 
-        lat2=String.valueOf(location.getLatitude());
-        lon2=String.valueOf(location.getLongitude());
-        locationText.setText("Latitude: " + lat2);
-        locationText2.setText("Longitude: " + lon2);
-        locationText3.setText("Altitude: "+location.getAltitude());
-        locationText4.setText(estat);
+
+        //lat2=String.valueOf(location.getLatitude());
+        //lon2=String.valueOf(location.getLongitude());
+
+        //ET - 2.1190648 - 41.421518
+        //41.389150, 2.144227
+        //GI
+        //lat2="41.983333333333";
+        //lon2="2.8166666666667";
+
+        //Ciutadella
+        lat2="40.001776";
+        lon2="3.8347893";
+
+        //lat2=String.valueOf(location.getLatitude());
+        //lon2=String.valueOf(location.getLongitude());
+
+        locationText1_lat.setText("Latitude: " + lat2);
+        locationText2_lon.setText("Longitude: " + lon2);
+        locationText3_alt.setText("Altitude: "+location.getAltitude());
+        text4_net.setText(estat);
     }
 
     @Override
@@ -346,68 +447,82 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
 
     }
 
-void putIMEI (final String imei3) {
 
+    void refreshParams () {
 
-    RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        mostrar_imei.setText(numIMEI);
+        text4_net.setText(String.valueOf(isConnected())); //Redundant
+        text5_wfi.setText(String.valueOf(isWifi())); //OK
+        text6_mobile.setText(String.valueOf(isMobileConnected())); //3G
 
-    String url ="https://safe-cell.herokuapp.com/api/device/updateDeviceLocation";
-    StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-            new Response.Listener<String>()
-            {
-                @Override
-                public void onResponse(String response) {
-                    Log.d("Response", response);
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+
+        String url ="https://safe-cell.herokuapp.com/api/device/updateDeviceLocation";
+
+        //	"device_id": 8,
+        //	"service_name": "internet",
+        //	"is_active": false
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,new Response.Listener<String>(){
+
+            @Override
+            public void onResponse(String response) {
+                Log.d("Response", response);
+
+                try {
+                        /*
+                        jsonObject = new JSONObject(response);
+                        Utilities.getInternet = jsonObject.getString("internet");
+                        */
+                    Toast.makeText(getApplicationContext(), "Actualització de localització...", Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            },
 
-            new Response.ErrorListener(){
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    // error
+            }
+        },
+
+                new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
                                 /*
                                 Snackbar.make(, "Replace with your own action", Snackbar.LENGTH_SHORT)
                                         .setAction("Action", null).show();
                                         */
 
-                    Log.d("Error.Response", String.valueOf(error));
+                        Log.d("Error.Response", String.valueOf(error));
+
+                    }
                 }
+        ) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+
+                Map<String, String> headers  = new HashMap<>(super.getHeaders());
+
+
+                //Map<String, String> headers = super.getHeaders();
+                //headers.put("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImY5OGMxZjM0NTZjYzQ5YjRkNGI4NzZhMGIwNjJmZGE3Mjc1ZTUxMjFmYTQ1N2IxNWRhOGY2MWQ4OGY3Y2I4MzRlM2U4YzA2Nzg4MzFiY2Q5In0.eyJhdWQiOiI5IiwianRpIjoiZjk4YzFmMzQ1NmNjNDliNGQ0Yjg3NmEwYjA2MmZkYTcyNzVlNTEyMWZhNDU3YjE1ZGE4ZjYxZDg4ZjdjYjgzNGUzZThjMDY3ODgzMWJjZDkiLCJpYXQiOjE1NTcyNDI2MDksIm5iZiI6MTU1NzI0MjYwOSwiZXhwIjoxNTg4ODY1MDA5LCJzdWIiOiI1Iiwic2NvcGVzIjpbXX0.xa3MdKvqkJmvEpa-GvMMBS-8UT80leHAoAwojhHVAPMJ8fA3F9IsWkgC-oyZkWuFyK4E9ybJ5xqAX8622j2NXHIqgVYzRX3cPcLoZS2hBzJT22cpnlLg3vtoZ1qb03YpslnoeUpWFHXcVoNNscwphq5vclFVsYQSr66w2_W7xaSWCZGIo_itIj8qhm8o66QBoMUwWt_PfAYC29q-29gz7rLnx5iDUzyhdyWUTYin3LA9rHb237LCMv2ngvMDnI85vA1hd5ZzZOPzXzYrblPCVVGgGsopZ9UeFe9FVaRCh38tkooICyuq-kpbHMn-r0tT1UGEUs1PxYAREteucDn3lBCpB1jhHZwovM2C0zWa-KLdWDiGNOKINPuvCggzOIqjVDn-6ddXEs3icggyLiu2QpBnjKq7KyB4tr5hw5cvNch_ojBzcbXh0IYbuJNOpGJaGbbGyIX8H1BGyaiGLFV_DZFxb-dapAbRF4OM6J6za5lG-eUIbUONTz6W__BHgmWE3e_4eOyjhsm5rlKfMx4b8iukS7Gtf3SnbLKwNzrCw45j1yzh-fwAXpMvr6TEzrSIa1PlXSOFHZ4TtnzcNnmHpW-QpbI0VraA1NTourJ93A5A7lr2R1DjqCoLH7_o4UDIGNErNLnvPlnFfhR7civFKw0fUIe8bjCNwwumAQSnUzk");
+                headers.put("Authorization", "Bearer ".concat(Utilities.getToken));
+                return headers;
+
             }
-    ) {
 
-        @Override
-        public Map<String, String> getHeaders() throws AuthFailureError {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
 
-            Map<String, String> headers  = new HashMap<>(super.getHeaders());
+                params.put("imei", numIMEI); //numIMEI_R
+                params.put("lon", lon2);
+                params.put("lat", lat2);
 
-
-            //Map<String, String> headers = super.getHeaders();
-            //headers.put("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImY5OGMxZjM0NTZjYzQ5YjRkNGI4NzZhMGIwNjJmZGE3Mjc1ZTUxMjFmYTQ1N2IxNWRhOGY2MWQ4OGY3Y2I4MzRlM2U4YzA2Nzg4MzFiY2Q5In0.eyJhdWQiOiI5IiwianRpIjoiZjk4YzFmMzQ1NmNjNDliNGQ0Yjg3NmEwYjA2MmZkYTcyNzVlNTEyMWZhNDU3YjE1ZGE4ZjYxZDg4ZjdjYjgzNGUzZThjMDY3ODgzMWJjZDkiLCJpYXQiOjE1NTcyNDI2MDksIm5iZiI6MTU1NzI0MjYwOSwiZXhwIjoxNTg4ODY1MDA5LCJzdWIiOiI1Iiwic2NvcGVzIjpbXX0.xa3MdKvqkJmvEpa-GvMMBS-8UT80leHAoAwojhHVAPMJ8fA3F9IsWkgC-oyZkWuFyK4E9ybJ5xqAX8622j2NXHIqgVYzRX3cPcLoZS2hBzJT22cpnlLg3vtoZ1qb03YpslnoeUpWFHXcVoNNscwphq5vclFVsYQSr66w2_W7xaSWCZGIo_itIj8qhm8o66QBoMUwWt_PfAYC29q-29gz7rLnx5iDUzyhdyWUTYin3LA9rHb237LCMv2ngvMDnI85vA1hd5ZzZOPzXzYrblPCVVGgGsopZ9UeFe9FVaRCh38tkooICyuq-kpbHMn-r0tT1UGEUs1PxYAREteucDn3lBCpB1jhHZwovM2C0zWa-KLdWDiGNOKINPuvCggzOIqjVDn-6ddXEs3icggyLiu2QpBnjKq7KyB4tr5hw5cvNch_ojBzcbXh0IYbuJNOpGJaGbbGyIX8H1BGyaiGLFV_DZFxb-dapAbRF4OM6J6za5lG-eUIbUONTz6W__BHgmWE3e_4eOyjhsm5rlKfMx4b8iukS7Gtf3SnbLKwNzrCw45j1yzh-fwAXpMvr6TEzrSIa1PlXSOFHZ4TtnzcNnmHpW-QpbI0VraA1NTourJ93A5A7lr2R1DjqCoLH7_o4UDIGNErNLnvPlnFfhR7civFKw0fUIe8bjCNwwumAQSnUzk");
-            headers.put("Authorization", "Bearer ".concat(Utilities.getToken));
-            return headers;
-
-        }
-
-
-
-        @Override
-        protected Map<String, String> getParams()
-        {
-            Map<String, String>  params = new HashMap<String, String>();
-
-            params.put("imei", numIMEI); //numIMEI_R
-            params.put("lon", lon2);  //41.389150, 2.144227
-            params.put("lat", lat2);  //
-
-            //params.put("lon", "2.1190648");
-            //params.put("lat", "41.421518");
-
-
-            return params;
-        }
-    };
-    queue.add(postRequest);
-}
+                return params;
+            }
+        };
+        queue.add(postRequest);
+    }
 
 
 }
