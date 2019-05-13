@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,7 +44,9 @@ public class MainActivity extends AppCompatActivity {
 
         final EditText eName=findViewById(R.id.fieldName);
         final EditText ePassword=findViewById(R.id.fieldPassword);
-        FloatingActionButton fab = findViewById(R.id.fab);
+      
+        Button fab = findViewById(R.id.fab);
+        Intent intent;
 
         //Session========
         final SharedPreferences pref;
@@ -55,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_SHORT)
+                Snackbar.make(view, "Iniciando sesión...", Snackbar.LENGTH_SHORT)
                         .setAction("Action", null).show();
 
 
