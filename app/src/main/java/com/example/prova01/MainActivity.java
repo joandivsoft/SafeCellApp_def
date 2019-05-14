@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     String name1;
     String password1;
     JSONObject jsonObject;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +47,13 @@ public class MainActivity extends AppCompatActivity {
         final EditText ePassword=findViewById(R.id.fieldPassword);
       
         Button fab = findViewById(R.id.fab);
-        Intent intent;
+
 
         //Session========
         final SharedPreferences pref;
         final SharedPreferences.Editor[] editor = new SharedPreferences.Editor[0];
         pref = getSharedPreferences("user_details",MODE_PRIVATE);
-        Intent intent;
+
         //Session========
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                                     //Toast.makeText(getApplicationContext(), "Get token: "+Utilities.getToken, Toast.LENGTH_LONG).show();
                                     //==============
 
-                                    Intent intent = new Intent(getApplicationContext(), Activity2.class);
+                                    intent = new Intent(getApplicationContext(), Activity2.class);
                                     intent.putExtra("param1", "sesión iniciada OKKKKKKK");
                                     startActivity(intent);
 
