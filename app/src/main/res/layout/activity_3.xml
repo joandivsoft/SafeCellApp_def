@@ -311,7 +311,7 @@
                 android:id="@+id/mostrar_imei"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:text="0"
                 android:textSize="20sp"
                 android:background="@color/colorField"
                 android:layout_weight="1"

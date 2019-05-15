@@ -63,6 +63,16 @@ import static java.lang.String.valueOf;
 
 public class Activity3 extends AppCompatActivity implements LocationListener {
 
+    //Mensage de error login failed
+    //Color pantalla
+    //Show/hidden nom >>> // (admin/usuari)
+    //Show (admin) amb login
+    //Mostrar bloc connexions (sense IMEI)
+    //parametros segundos >= 2
+    //stop/ start readings
+    //Contrassenya para mostrar
+
+
     //PEND
     //Revisar LOC enviament  >> ERR (lectura + enviament) ??
 
@@ -170,7 +180,6 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
         mostrar_imei = (TextView) findViewById(R.id.mostrar_imei);
         numIMEI_R = consultarPermiso(Manifest.permission.READ_PHONE_STATE, PHONESTATS);
         numIMEI = com.example.prova01.Utilities.numIMEI;
-        numIMEI_def=numIMEI_R;
 
         String a3_getParam1 = getIntent().getStringExtra("a2_param_lang");
         Integer a3_getParam1Int = Integer.parseInt(a3_getParam1);
@@ -356,38 +365,8 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
 
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Iniciant lectures...", Toast.LENGTH_SHORT).show();
-                mostrar_imei.setText(numIMEI_def);
-                getIdDevice();
-                getLocation();
-                readings2();
-                refreshTransitData();
-                /*
-                //======== URL - Obrir url un cop filtrada la connexió ================
-                try {
-                    URL oracle = new URL("http://www.oracle.com/");
-                    URLConnection yc = null;
-                    yc = oracle.openConnection();
-                    in = new BufferedReader(new InputStreamReader(
-                            yc.getInputStream()));
-                    String inputLine;
-                    while ((inputLine = in.readLine()) != null)
-                        System.out.println(inputLine);
-                    in.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-
-                }
-
-                //======== URL ================
-                */
-
-
-//Execute first time
-
-                //readWIFI();
-                //readField2();
+                //getFirstReadings();
+                getPeriodicReadings2();
             }
         });
 
@@ -438,8 +417,9 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
             public void run() {
                 // Do the task...
                 handler.postDelayed(this, (long) (Float.parseFloat(textInterval.getText().toString())*1000)); // Repetition
-                refreshTransitData();
-                readings2(); //Execute loop
+                getPeriodicReadings2(); //Execute loop
+                // refreshTransitData();
+
             }
         };
 
@@ -447,28 +427,79 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
 
     }
 
+    void getFirstReadings() {
 
-    void readings2() {
+
+                /*
+                //======== URL - Obrir url un cop filtrada la connexió ================
+                try {
+                    URL oracle = new URL("http://www.oracle.com/");
+                    URLConnection yc = null;
+                    yc = oracle.openConnection();
+                    in = new BufferedReader(new InputStreamReader(
+                            yc.getInputStream()));
+                    String inputLine;
+                    while ((inputLine = in.readLine()) != null)
+                        System.out.println(inputLine);
+                    in.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+
+                }
+
+                //======== URL ================
+                */
+
+
+//Execute first time
+
+        //readWIFI();
+        //readField2();
+
+    }
+
+    void getPeriodicReadings2() {
         Toast.makeText(getApplicationContext(), "Reading data....", Toast.LENGTH_SHORT).show();
 
+        if (Utilities.permisos.equals("false")) {
+            getPermisosLoc1();
+            getPermisosLoc2();
+
+        }
+        //Comprovació 1 - numIMEI
+        if (Utilities.numIMEI_def.length()>0) {
+            //numIMEI_def=numIMEI;
+            Utilities.numIMEI_def=numIMEI_R;
+            mostrar_imei.setText(Utilities.numIMEI_def);
+        }
+
+        //Comprovació 2 - idDevice
         if (Utilities.idDevice>0) {
             getServiceWifi();
+            if (Utilities.getWifi.equals("false")) {
+                setEnabledWifi(false);
+            } else {
+                setEnabledWifi(true);
+            }
+        } else {
+            getIdDevice();
         }
+
+        if (Utilities.idDevice>0 && (Utilities.getWifi.equals("false") || Utilities.getWifi.equals("true"))) {
+            getLocation();
+        }
+        //refreshTransitData();
 
         //isMobileConnected();
         //isWifi();
         //isConnected();
 
-        if (Utilities.getWifi.equals(("false"))) {
-            setEnabledWifi(false);
-        } else {
-            setEnabledWifi(true);
-        }
 
         text4_net.setText(String.valueOf(isConnected())); //Redundant
         text6_mobile.setText(String.valueOf(isMobileConnected())); //3G
         text5_wfi.setText(String.valueOf(isWifi())); //OK
-        onLocationChanged(location);
+        //onLocationChanged(location);
     }
 
     boolean isMobileConnected() {
@@ -491,12 +522,7 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
         return isConnected;
     }
 
-    void getLocation() {
-
-        locationManager = (LocationManager) getSystemService(getApplicationContext().LOCATION_SERVICE);  //>> estat 3
-        estat = "Estat 1";
-
-        Log.d("myTag", "++++++++++++++++"+String.valueOf(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)));
+    void getPermisosLoc1() {
 
         if (ContextCompat.checkSelfPermission(Activity3.this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
@@ -519,6 +545,10 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
             // Permission has already been granted
         }
 
+    }
+
+    void getPermisosLoc2() {
+
         if (ContextCompat.checkSelfPermission(Activity3.this,
                 Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -539,6 +569,19 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
         } else {
             // Permission has already been granted
         }
+
+    }
+
+    void getLocation() {
+
+        locationManager = (LocationManager) getSystemService(getApplicationContext().LOCATION_SERVICE);  //>> estat 3
+        estat = "Estat 1";
+
+        Log.d("myTag", "++++++++++++++++"+String.valueOf(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)));
+
+        getPermisosLoc1();
+
+        getPermisosLoc2();
 
         //Parametres localització
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 4000, 10, this); // ms, m  //60000, 10
@@ -690,7 +733,7 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
 
         //Envia loc i rep internet
         /*
-        mostrar_imei.setText(numIMEI_def);
+        mostrar_imei.setText(Utilities.numIMEI_def);
         text4_net.setText(String.valueOf(isConnected())); //Redundant
         text5_wfi.setText(String.valueOf(isWifi())); //OK
         text6_mobile.setText(String.valueOf(isMobileConnected())); //3G
@@ -754,7 +797,7 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
             {
                 Map<String, String>  params = new HashMap<String, String>();
 
-                params.put("imei", numIMEI_def);
+                params.put("imei", Utilities.numIMEI_def);
                 params.put("lon", lon2);
                 params.put("lat", lat2);
 
@@ -769,7 +812,7 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
 
         queue = Volley.newRequestQueue(getApplicationContext());
 
-        String url ="https://safe-cell.herokuapp.com/api/device/getDeviceIdByImei/".concat(numIMEI_def);
+        String url ="https://safe-cell.herokuapp.com/api/device/getDeviceIdByImei/".concat(Utilities.numIMEI_def);
 
         //	"device_id": 8,
         //	"service_name": "internet",
@@ -823,7 +866,7 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
             {
                 Map<String, String>  params = new HashMap<String, String>();
 
-                //params.put("device_id", numIMEI_def);
+                //params.put("device_id", Utilities.numIMEI_def);
 
                 return params;
             }
@@ -911,7 +954,7 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
             {
                 Map<String, String>  params = new HashMap<String, String>();
 
-                //params.put("device_id", numIMEI_def);
+                //params.put("device_id", Utilities.numIMEI_def);
 
                 return params;
             }
