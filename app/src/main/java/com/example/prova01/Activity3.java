@@ -63,15 +63,8 @@ import static java.lang.String.valueOf;
 
 public class Activity3 extends AppCompatActivity implements LocationListener {
 
-    //Mensage de error login failed
-    //Color pantalla
-    //Show/hidden nom >>> // (admin/usuari)
-    //Show (admin) amb login
-    //Mostrar bloc connexions (sense IMEI)
-    //parametros segundos >= 2
-    //stop/ start readings
-    //Contrassenya para mostrar
-
+    //PEND
+    //logo >> transparència
 
     //PEND
     //Revisar LOC enviament  >> ERR (lectura + enviament) ??
@@ -89,7 +82,18 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
 
     //3. Filter web, Block screen, don't close
 
-    //FET
+    //FET - dj
+    //Show (admin) amb login
+    //Contrassenya para mostrar
+
+    //FET - dc
+    //Show/hidden nom >>> // (admin/usuari)
+    //Mostrar bloc connexions (sense IMEI)
+    //parametros segundos >= 2
+    //stop/ start readings
+
+
+    //FET (dl-dt)
     //Interval >> Block WIFI - onChangeLoc
     //1. Geoloc
     //3 execute methods on reading (WIFI)
@@ -121,10 +125,10 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
     TextView text5_wfi;
     TextView text6_mobile;
     Button getIMEI;
-    Button getLocationBtn;
-    Button blockWifi;
-    Button enabledWifi;
-    Button blockInternet;
+    //Button getLocationBtn;
+    //Button blockWifi;
+    //Button enabledWifi;
+    //Button blockInternet;
     Button readings;
     Button btn_show;
     Button btn_hidden;
@@ -163,6 +167,8 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
     JSONObject jsonObject;
     RequestQueue queue;
     private String m_Text = "";
+    public String intervalSegonsStr;
+    public long intervalSegonsLn;
 
     static ConnectivityManager cm;
     static NetworkInfo activeNetwork;
@@ -209,10 +215,10 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
         et_read_wifi=(TextView) findViewById(R.id.et_read_wifi);
 
         //buttons
-        getLocationBtn = (Button) findViewById(R.id.getLocationBtn);
-        blockWifi = (Button) findViewById(R.id.blockWifi);
-        enabledWifi = (Button) findViewById(R.id.enabledWifi);
-        blockInternet = (Button) findViewById(R.id.blockInternet);
+        //getLocationBtn = (Button) findViewById(R.id.getLocationBtn);
+        //blockWifi = (Button) findViewById(R.id.blockWifi);
+        //enabledWifi = (Button) findViewById(R.id.enabledWifi);
+        //blockInternet = (Button) findViewById(R.id.blockInternet);
         //blockInternet.setVisibility(View.GONE); //Ocultar
         readings= (Button) findViewById(R.id.readings);
         btn_hidden= (Button) findViewById(R.id.btn_hidden);
@@ -239,6 +245,16 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
         et_lat=(TextView) findViewById(R.id.et_lat);
         et_Interval=(TextView) findViewById(R.id.et_interval);
         textInterval=(EditText) findViewById(R.id.text_interval);
+
+        //Visibles per defecte
+        et_connect_net.setVisibility(View.VISIBLE);
+        text4_net.setVisibility(View.VISIBLE);
+        et_connect_internet.setVisibility(View.VISIBLE);
+        text4_internet.setVisibility(View.VISIBLE);
+        et_connect_wifi.setVisibility(View.VISIBLE);
+        text5_wfi.setVisibility(View.VISIBLE);
+        et_mobile.setVisibility(View.VISIBLE);
+        text6_mobile.setVisibility(View.VISIBLE);
 
         //Gone, invisible (no surt), Visible
         btn_show.setOnClickListener(new View.OnClickListener() {
@@ -272,83 +288,52 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
                 builder.show();
                 */
 
-                mostrar_imei.setVisibility(View.VISIBLE);
-                text4_internet.setVisibility(View.VISIBLE);
-                text0_appWellcome.setVisibility(View.VISIBLE);
-                text0_sessionInitied.setVisibility(View.VISIBLE);
-                getLocationBtn.setVisibility(View.VISIBLE);
-                blockWifi.setVisibility(View.VISIBLE);
-                enabledWifi.setVisibility(View.VISIBLE);
-                blockInternet.setVisibility(View.VISIBLE);
-                readings.setVisibility(View.VISIBLE);
-                locationText1_lat.setVisibility(View.VISIBLE);
-                locationText2_lon.setVisibility(View.VISIBLE);
-                locationText3_alt.setVisibility(View.VISIBLE);
-                text4_net.setVisibility(View.VISIBLE);
-                text5_wfi.setVisibility(View.VISIBLE);
-                text6_mobile.setVisibility(View.VISIBLE);
-                text_read_field2.setVisibility(View.VISIBLE);
-                text5_wfi.setVisibility(View.VISIBLE);
+                /*
+                AlertDialog alertDialog = new AlertDialog.Builder(Activity3.this).create();
+                alertDialog.setTitle("Alert");
+                alertDialog.setMessage("Alert message to be shown");
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
+                */
 
-                et_connect.setVisibility(View.VISIBLE);
-                et_geoloc.setVisibility(View.VISIBLE);
-                et_mobile.setVisibility(View.VISIBLE);
-                et_reads.setVisibility(View.VISIBLE);
-                et_read_field2.setVisibility(View.VISIBLE);
-                et_titulo_IMEI.setVisibility(View.VISIBLE);
-                et_connect_wifi.setVisibility(View.VISIBLE);
-                et_connect_net.setVisibility(View.VISIBLE);
-                et_alt.setVisibility(View.VISIBLE);
-                et_lon.setVisibility(View.VISIBLE);
-                et_lat.setVisibility(View.VISIBLE);
-                text_read_wifi.setVisibility(View.VISIBLE);
-                et_read_wifi.setVisibility(View.VISIBLE);
-                et_connect_internet.setVisibility(View.VISIBLE);
-                textInterval.setVisibility(View.VISIBLE);
-                et_Interval.setVisibility(View.VISIBLE);
-                btn_stopReading.setVisibility(View.VISIBLE);
-            }
-        });
+                if (locationText2_lon.getVisibility() == View.INVISIBLE) {
+
+                    final EditText txtMsg = new EditText(Activity3.this);
+                    txtMsg.setHint("Password");
+                    new AlertDialog.Builder(Activity3.this).setTitle("Title").setMessage("Message").setView(txtMsg)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    String txt1 = txtMsg.getText().toString();
+                                    Toast.makeText(getApplicationContext(), Utilities.pwdScreen+"-"+txt1, Toast.LENGTH_SHORT).show();
+                                    if (txt1.equals(Utilities.pwdScreen)) {
+                                        showAdmin();
+                                    }
+                                }
+                            })
+
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    //hiddenUser();
+                                }
+                            })
+                            .show();
+                }
+
+
+                    }
+                });
 
         btn_hidden.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                mostrar_imei.setVisibility(View.INVISIBLE);
-                text4_internet.setVisibility(View.INVISIBLE);
-                text0_appWellcome.setVisibility(View.INVISIBLE);
-                text0_sessionInitied.setVisibility(View.INVISIBLE);
-                getLocationBtn.setVisibility(View.INVISIBLE);
-                blockWifi.setVisibility(View.INVISIBLE);
-                enabledWifi.setVisibility(View.INVISIBLE);
-                blockInternet.setVisibility(View.INVISIBLE);
-                readings.setVisibility(View.INVISIBLE);
-                locationText1_lat.setVisibility(View.INVISIBLE);
-                locationText2_lon.setVisibility(View.INVISIBLE);
-                locationText3_alt.setVisibility(View.INVISIBLE);
-                text4_net.setVisibility(View.INVISIBLE);
-                text5_wfi.setVisibility(View.INVISIBLE);
-                text6_mobile.setVisibility(View.INVISIBLE);
-                text_read_field2.setVisibility(View.INVISIBLE);
-                text5_wfi.setVisibility(View.INVISIBLE);
-
-                et_connect.setVisibility(View.INVISIBLE);
-                et_geoloc.setVisibility(View.INVISIBLE);
-                et_mobile.setVisibility(View.INVISIBLE);
-                et_reads.setVisibility(View.INVISIBLE);
-                et_read_field2.setVisibility(View.INVISIBLE);
-                et_titulo_IMEI.setVisibility(View.INVISIBLE);
-                et_connect_wifi.setVisibility(View.INVISIBLE);
-                et_connect_net.setVisibility(View.INVISIBLE);
-                et_alt.setVisibility(View.INVISIBLE);
-                et_lon.setVisibility(View.INVISIBLE);
-                et_lat.setVisibility(View.INVISIBLE);
-                text_read_wifi.setVisibility(View.INVISIBLE);
-                et_read_wifi.setVisibility(View.INVISIBLE);
-                et_connect_internet.setVisibility(View.INVISIBLE);
-                textInterval.setVisibility(View.INVISIBLE);
-                et_Interval.setVisibility(View.INVISIBLE);
-                btn_stopReading.setVisibility(View.INVISIBLE);
+                hiddenUser();
 
             }
         });
@@ -366,11 +351,12 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
             @Override
             public void onClick(View v) {
                 //getFirstReadings();
-                getPeriodicReadings2();
+                //getPeriodicReadings2();
+                loop();
             }
         });
 
-
+        /*
         getLocationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -378,8 +364,10 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
                 //refreshTransitData();
             }
         });
+        */
 
 
+        /*
         blockWifi.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -394,12 +382,16 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
                 setEnabledWifi(true);
             }
         });
+        */
+
+        /*
         blockInternet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 blockData();
             }
         });
+        */
 
         /*
         new Timer().scheduleAtFixedRate(new TimerTask(){
@@ -410,13 +402,89 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
         },0,5000);
         */
 
+        loop();
+    }
+
+    void hiddenUser() {
+
+        mostrar_imei.setVisibility(View.INVISIBLE);
+        text0_appWellcome.setVisibility(View.INVISIBLE);
+        text0_sessionInitied.setVisibility(View.INVISIBLE);
+        //getLocationBtn.setVisibility(View.INVISIBLE);
+        //blockWifi.setVisibility(View.INVISIBLE);
+        //enabledWifi.setVisibility(View.INVISIBLE);
+        //blockInternet.setVisibility(View.INVISIBLE);
+        readings.setVisibility(View.INVISIBLE);
+        locationText1_lat.setVisibility(View.INVISIBLE);
+        locationText2_lon.setVisibility(View.INVISIBLE);
+        locationText3_alt.setVisibility(View.INVISIBLE);
+        text_read_field2.setVisibility(View.INVISIBLE);
+
+        et_connect.setVisibility(View.INVISIBLE);
+        et_geoloc.setVisibility(View.INVISIBLE);
+        et_reads.setVisibility(View.INVISIBLE);
+        et_read_field2.setVisibility(View.INVISIBLE);
+        et_titulo_IMEI.setVisibility(View.INVISIBLE);
+        et_alt.setVisibility(View.INVISIBLE);
+        et_lon.setVisibility(View.INVISIBLE);
+        et_lat.setVisibility(View.INVISIBLE);
+        text_read_wifi.setVisibility(View.INVISIBLE);
+        textInterval.setVisibility(View.INVISIBLE);
+        et_Interval.setVisibility(View.INVISIBLE);
+        btn_stopReading.setVisibility(View.INVISIBLE);
+        et_read_wifi.setVisibility(View.INVISIBLE);
+
+    }
+    void showAdmin() {
+        mostrar_imei.setVisibility(View.VISIBLE);
+        text0_appWellcome.setVisibility(View.VISIBLE);
+        text0_sessionInitied.setVisibility(View.VISIBLE);
+        //getLocationBtn.setVisibility(View.VISIBLE);
+        //blockWifi.setVisibility(View.VISIBLE);
+        //enabledWifi.setVisibility(View.VISIBLE);
+        //blockInternet.setVisibility(View.VISIBLE);
+        readings.setVisibility(View.VISIBLE);
+        locationText1_lat.setVisibility(View.VISIBLE);
+        locationText2_lon.setVisibility(View.VISIBLE);
+        locationText3_alt.setVisibility(View.VISIBLE);
+        text_read_field2.setVisibility(View.VISIBLE);
+
+        et_connect.setVisibility(View.VISIBLE);
+        et_geoloc.setVisibility(View.VISIBLE);
+        et_reads.setVisibility(View.VISIBLE);
+        et_read_field2.setVisibility(View.VISIBLE);
+        et_titulo_IMEI.setVisibility(View.VISIBLE);
+        et_alt.setVisibility(View.VISIBLE);
+        et_lon.setVisibility(View.VISIBLE);
+        et_lat.setVisibility(View.VISIBLE);
+        text_read_wifi.setVisibility(View.VISIBLE);
+        textInterval.setVisibility(View.VISIBLE);
+        et_Interval.setVisibility(View.VISIBLE);
+        btn_stopReading.setVisibility(View.VISIBLE);
+        et_read_wifi.setVisibility(View.VISIBLE);
+    }
+
+    void loop() {
+
         handler = new Handler(Looper.getMainLooper());
 
         runnable = new Runnable() {
             @Override
             public void run() {
                 // Do the task...
-                handler.postDelayed(this, (long) (Float.parseFloat(textInterval.getText().toString())*1000)); // Repetition
+                if ((textInterval.getText().toString().equals("null")) || (textInterval.getText().toString().equals(""))) {
+                    intervalSegonsStr="10000";
+                } else {
+                    intervalSegonsStr=textInterval.getText().toString();
+                }
+
+                intervalSegonsLn=(long) (Float.parseFloat(intervalSegonsStr)*1000);
+
+                if (intervalSegonsLn<10000 ) {
+                    intervalSegonsLn=10000;
+                }
+
+                handler.postDelayed(this, intervalSegonsLn); // Repetition
                 getPeriodicReadings2(); //Execute loop
                 // refreshTransitData();
 
@@ -424,9 +492,7 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
         };
 
         handler.postDelayed(runnable, 5000); //Once
-
     }
-
     void getFirstReadings() {
 
 
@@ -470,7 +536,7 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
         //Comprovació 1 - numIMEI
         if (Utilities.numIMEI_def.length()>0) {
             //numIMEI_def=numIMEI;
-            Utilities.numIMEI_def=numIMEI_R;
+            Utilities.numIMEI_def=numIMEI;
             mostrar_imei.setText(Utilities.numIMEI_def);
         }
 
@@ -620,19 +686,10 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
 
         //Canvia i envia...
 
-        //https://safe-cell.herokuapp.com/device/22
-        //lat2=String.valueOf(location.getLatitude());
-        //lon2=String.valueOf(location.getLongitude());
-
-        //ET - 2.1190648 - 41.421518
-        //41.389150, 2.144227
         //GI
         //lat2="41.983333333333";
         //lon2="2.8166666666667";
         //alt2="0.0";
-
-        //lat2=String.valueOf(Float.parseFloat(lat2)+0.1);
-        //lon2=String.valueOf(Float.parseFloat(lon2)+0.1);
 
         //Ciutadella
         //lat2="40.001776";
@@ -760,7 +817,6 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
         },
 

@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                         new Response.ErrorListener(){
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                // error
+                                //Snackbar.make(getApplicationContext(), "Error de sesión", Snackbar.LENGTH_SHORT).setAction("Action", null).show();
 
                                 Log.d("Error.Response", String.valueOf(error));
                             }
@@ -119,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
                         params.put("email", name1);  //ara per defecte: iris3@test.com...
                         params.put("password", password1); //ara per defecte: 123456
                         params.put("remember_me", String.valueOf(true));
+                        Utilities.pwdScreen=password1;
 
                         //Session=============
                         //editor[0] = pref.edit();
