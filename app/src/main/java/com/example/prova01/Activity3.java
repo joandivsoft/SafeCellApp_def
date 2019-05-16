@@ -247,6 +247,7 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
         et_Interval=(TextView) findViewById(R.id.et_interval);
         textInterval=(EditText) findViewById(R.id.text_interval);
 
+        //Language manage
         et_lat.setText(lang1[a3_getParam1Int][8]);
         et_lon.setText(lang1[a3_getParam1Int][9]);
         et_alt.setText(lang1[a3_getParam1Int][10]);
