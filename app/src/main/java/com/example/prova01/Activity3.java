@@ -64,6 +64,7 @@ import static java.lang.String.valueOf;
 public class Activity3 extends AppCompatActivity implements LocationListener {
 
     //PEND
+    //Comentaris, classes, codi
     //logo >> transparència
 
     //PEND
@@ -162,7 +163,7 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
     String lat2="PEND";
     String lon2="PEND";
     String alt2="PEND";
-    String estat = "Estat 0";
+    String estatLoc = "Estat 0";
     String estat2 = "Pendent...";
     JSONObject jsonObject;
     RequestQueue queue;
@@ -245,6 +246,21 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
         et_lat=(TextView) findViewById(R.id.et_lat);
         et_Interval=(TextView) findViewById(R.id.et_interval);
         textInterval=(EditText) findViewById(R.id.text_interval);
+
+        et_lat.setText(lang1[a3_getParam1Int][8]);
+        et_lon.setText(lang1[a3_getParam1Int][9]);
+        et_alt.setText(lang1[a3_getParam1Int][10]);
+        et_connect_net.setText(lang1[a3_getParam1Int][11]);
+        et_mobile.setText(lang1[a3_getParam1Int][12]);
+        et_read_wifi.setText(lang1[a3_getParam1Int][13]);
+        et_read_field2.setText(lang1[a3_getParam1Int][14]);
+        et_Interval.setText(lang1[a3_getParam1Int][15]);
+
+        //Languages
+        btn_stopReading.setText(lang1[a3_getParam1Int][16]);
+        readings.setText(lang1[a3_getParam1Int][17]);
+        btn_show.setText(lang1[a3_getParam1Int][18]);
+        btn_hidden.setText(lang1[a3_getParam1Int][19]);
 
         //Visibles per defecte
         et_connect_net.setVisibility(View.VISIBLE);
@@ -640,8 +656,8 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
 
     void getLocation() {
 
-        locationManager = (LocationManager) getSystemService(getApplicationContext().LOCATION_SERVICE);  //>> estat 3
-        estat = "Estat 1";
+        locationManager = (LocationManager) getSystemService(getApplicationContext().LOCATION_SERVICE);
+        estatLoc = "Estat 1 - Preinicio localización";
 
         Log.d("myTag", "++++++++++++++++"+String.valueOf(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)));
 
@@ -655,7 +671,7 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
         location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
         Log.d("myTag", "Estat 2 ==================================================");
-        estat="Estat 2";
+        estatLoc="Estat 2 - Inicio localización";
 
         try {
 
@@ -702,7 +718,7 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
         locationText1_lat.setText(lat2);
         locationText2_lon.setText(lon2);
         locationText3_alt.setText(alt2);
-        text4_net.setText(estat);
+        text4_net.setText(estatLoc);
         refreshTransitData();
     }
 

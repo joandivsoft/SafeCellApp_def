@@ -9,5 +9,7 @@
     <color name="colorField">#f0f7a3</color>
     <color name="colorTitle">#eaceed</color>
     <color name="colorBG">#eaceed</color>
+    <color name="fontColor">#0d54c6</color>
+
     <!--<color name="colorTitle">#eba80a</color>-->
 </resources>

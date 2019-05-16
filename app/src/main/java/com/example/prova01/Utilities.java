@@ -5,39 +5,76 @@ import com.example.prova01.R;
 public class Utilities {
 
     static final String[] msg_ca={
-            "Benvingut a l'aplicació SafeCellApp",
+            "Benvingut/da a l'aplicació SafeCellApp",
             "Sessió iniciada",
-            "L'aplicació està funcionant",
+            "(L'aplicació està funcionant...)",
             "Compte",
             "Geolocalització",
             "Connexions",
             "Mòbil",
             "Lectures",
+            "Latitud",
+            "Longitud",
+            "Altitud",
+            "Connexió xarxa",
+            "Mòbil",
+            "Lectura WIFI",
+            "Id dispositiu",
+            "Temps actualització\n(mínim 10 s)",
+            "ATURA",
+            "REINICIA",
+            "Administrador",
+            "usuari",
             ""
     };
     static final String[] msg_es={
-            "Bienvenido a la aplicación SafeCellApp",
+            "Bienvenido/da a la aplicación SafeCellApp",
             "Sessión iniciada",
-            "La aplicación está corriendo",
+            "(La aplicación está corriendo...)",
             "Advertencia",
             "Geolocalización",
             "Conexiones",
             "Móvil",
             "Lecturas",
+            "Latitud",
+            "Longitud",
+            "Altitud",
+            "Connexión red",
+            "Móvil",
+            "Lectura WIFI",
+            "Id dispositivo",
+            "Tiempo actualitzación\n(mínim 10 s)",
+            "PARADA",
+            "REINICIA",
+            "Administrador",
+            "usuario",
             ""
     };
     static final String[] msg_en={
             "Wellcome at SafeCellApp",
             "Session initied",
-            "App is srunning",
+            "(App is running...)",
             "Warning",
             "Geolocalization",
             "Connections",
             "Mobile",
             "Read data",
+            "Latitude",
+            "Longitude",
+            "Altitude",
+            "Net connection",
+            "Mobile",
+            "WIFI lecture",
+            "Id device",
+            "Time refresh\n(at least 10 s)",
+            "STOP",
+            "RESTART",
+            "Administrator",
+            "User",
             ""
     };
 
+    //15
     static String[][] lang1={msg_ca, msg_es, msg_en};
     static int language1=0;
 
