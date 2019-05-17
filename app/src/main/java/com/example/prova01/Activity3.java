@@ -552,8 +552,8 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
         }
         //Comprovació 1 - numIMEI
         if (Utilities.numIMEI_def.length()>0) {
-            //numIMEI_def=numIMEI;
-            Utilities.numIMEI_def=numIMEI;
+            //numIMEI_def=numIMEI; //Pren IMEI literal (per a proves)
+            Utilities.numIMEI_def=numIMEI_R; //Pren IMEI real
             mostrar_imei.setText(Utilities.numIMEI_def);
         }
 
@@ -667,7 +667,7 @@ public class Activity3 extends AppCompatActivity implements LocationListener {
         getPermisosLoc2();
 
         //Parametres localització
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 4000, 10, this); // ms, m  //60000, 10
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 4000, 5, this); // ms, m  //60000, 10
 
         location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
